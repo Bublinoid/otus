@@ -1,14 +1,15 @@
 package ru.otus.bank.service.impl;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.ArgumentMatcher;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.bank.dao.AccountDao;
 import ru.otus.bank.entity.Account;
+import ru.otus.bank.entity.Agreement;
+import ru.otus.bank.service.AgreementService;
 import ru.otus.bank.service.exception.AccountException;
 
 import java.math.BigDecimal;
@@ -27,6 +28,9 @@ public class AccountServiceImplTest {
 
     @InjectMocks
     AccountServiceImpl accountServiceImpl;
+
+    @Captor
+    ArgumentCaptor<Account> accountArgumentCaptor;
 
     @Test
     public void testTransfer() {
@@ -82,5 +86,40 @@ public class AccountServiceImplTest {
 
         verify(accountDao).save(argThat(sourceMatcher));
         verify(accountDao).save(argThat(destinationMatcher));
-        }
+    }
+
+    @Test
+    public void testAddedAccount() {
+        Account account = new Account();
+        Agreement agreement = new Agreement();
+        String accountNumber = "test";
+        Integer type = 10;
+        BigDecimal amount = new BigDecimal(10000);
+        ArgumentCaptor<Account> captor = ArgumentCaptor.forClass(Account.class);
+        when(accountDao.save(captor.capture())).thenReturn(account);
+        accountServiceImpl.addAccount(agreement, accountNumber, type, amount);
+        assertEquals("test", captor.getValue().getNumber());
+        assertEquals(10, captor.getValue().getType());
+        assertEquals(new BigDecimal(10000), captor.getValue().getAmount());
+    }
+
+
+    @Test
+    public void testGetAccount() {
+        Agreement agreement = new Agreement();
+        agreement.setId(1L);
+        accountServiceImpl.getAccounts(agreement);
+        verify(accountDao).findByAgreementId(agreement.getId());
+    }
+
+
+    @Test
+    public void testChangeNoAccount() {
+        Account account = new Account();
+        account.setAmount(new BigDecimal(100));
+        account.setId(1L);
+        Assertions.assertThrows(AccountException.class, () -> {
+            accountServiceImpl.charge(account.getId(), BigDecimal.TEN);
+        });
+    }
 }
