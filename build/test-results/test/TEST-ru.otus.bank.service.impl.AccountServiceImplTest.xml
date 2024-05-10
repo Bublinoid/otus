@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.otus.bank.service.impl.AccountServiceImplTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-05-10T09:03:30" hostname="DESKTOP-AU8O2FE" time="0.867">
+  <properties/>
+  <testcase name="testSourceNotFound()" classname="ru.otus.bank.service.impl.AccountServiceImplTest" time="0.805"/>
+  <testcase name="testChangeNoAccount()" classname="ru.otus.bank.service.impl.AccountServiceImplTest" time="0.007"/>
+  <testcase name="testGetAccount()" classname="ru.otus.bank.service.impl.AccountServiceImplTest" time="0.019"/>
+  <testcase name="testAddedAccount()" classname="ru.otus.bank.service.impl.AccountServiceImplTest" time="0.006"/>
+  <testcase name="testTransfer()" classname="ru.otus.bank.service.impl.AccountServiceImplTest" time="0.007"/>
+  <testcase name="testTransferWithVerify()" classname="ru.otus.bank.service.impl.AccountServiceImplTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
