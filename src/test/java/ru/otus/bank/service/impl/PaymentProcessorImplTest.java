@@ -7,6 +7,7 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.mockito.Mockito.*;
 
 import ru.otus.bank.entity.Account;
@@ -17,9 +18,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-
 @ExtendWith(MockitoExtension.class)
-public class PaymentProcessorImplTest {
+class PaymentProcessorImplTest {
 
     @Mock
     AccountService accountService;
@@ -92,13 +92,11 @@ public class PaymentProcessorImplTest {
                 return argument != null && argument.getId() == 2L;
             }
         }))).thenReturn(List.of(destinationAccount));
-        paymentProcessor.makeTransferWithComission(sourceAgreement,destinationAgreement,sourceAccount.getType(),
-                destinationAccount.getType(),amount,commissionPercent);
-        verify(accountService).charge(sourceAccount.getId(),amount.negate().multiply(commissionPercent));
+        paymentProcessor.makeTransferWithComission(sourceAgreement, destinationAgreement, sourceAccount.getType(),
+                destinationAccount.getType(), amount, commissionPercent);
+        verify(accountService).charge(sourceAccount.getId(), amount.negate().multiply(commissionPercent));
         verify(accountService).makeTransfer(sourceAccount.getId(), destinationAccount.getId(), amount);
     }
-
-
 
 
 }

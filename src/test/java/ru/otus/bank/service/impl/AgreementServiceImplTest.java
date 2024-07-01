@@ -11,6 +11,7 @@ import ru.otus.bank.entity.Agreement;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +22,7 @@ public class AgreementServiceImplTest {
     AgreementServiceImpl agreementServiceImpl;
 
     @BeforeEach
-    public void init() {
+    void init() {
         agreementServiceImpl = new AgreementServiceImpl(dao);
     }
 
@@ -76,5 +77,31 @@ public class AgreementServiceImplTest {
         verify(dao).findByName(captor.capture());
         assertEquals("test", captor.getValue());
     }
+
+    @Test
+    public void testAddAgreementThrowsException() {
+        String name = "errorCase";
+        when(dao.save(any())).thenThrow(new RuntimeException("Database error"));
+
+        Assertions.assertThrows(RuntimeException.class, () -> agreementServiceImpl.addAgreement(name));
+    }
+
+    @Test
+    public void testAddAgreement() {
+        String name = "newAgreement";
+        Agreement savedAgreement = new Agreement();
+        savedAgreement.setId(1L);
+        savedAgreement.setName(name);
+
+        when(dao.save(any())).thenReturn(savedAgreement);
+
+        Agreement result = agreementServiceImpl.addAgreement(name);
+
+        assertEquals(name, result.getName());
+        assertEquals(1L, result.getId());
+        verify(dao).save(any(Agreement.class));  // вызван ли save
+    }
+
+
 
 }

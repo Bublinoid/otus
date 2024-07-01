@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
-public class PaymentProcessorImplWithSpyTest {
+class PaymentProcessorImplWithSpyTest {
 
     @Mock
     AccountDao accountDao;
