@@ -12,6 +12,6 @@ public interface PaymentProcessor {
     boolean makeTransferWithComission(Agreement source, Agreement destination,
                                       int sourceType, int destinationType,
                                       BigDecimal amount,
-                                      BigDecimal comissionPercent);
+                                      BigDecimal commissionPercent);
 }
 
