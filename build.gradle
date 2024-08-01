@@ -13,8 +13,16 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.11.0'
+    implementation 'org.aspectj:aspectjrt:1.9.6'
+    annotationProcessor 'org.aspectj:aspectjweaver:1.9.6'
 }
 
 test {
     useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
